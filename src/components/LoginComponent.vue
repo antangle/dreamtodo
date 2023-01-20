@@ -7,6 +7,7 @@
         <input type="text" v-model="pass">
         <v-btn @click="onSubmitForm"> LOGIN </v-btn>
     </form>
+    <h1>LSH</h1>
   </div>
 
 <!--
