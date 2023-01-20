@@ -1,7 +1,7 @@
 <template>
   <h1>Login Page </h1>
 
-  <LoginComponent></LoginComponent>
+  <LoginComponent> </LoginComponent>
 </template>
 
 <script setup>

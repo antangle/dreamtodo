@@ -14,14 +14,14 @@
             <v-card>
 
               <v-list lines="two">
-                <v-list-subheader>제목: {{ todo.title }}</v-list-subheader>
+                <v-list-subheader>제목 : {{ todo.title }}</v-list-subheader>
                 <template v-for="n in 1" :key="n">
                   <v-list-item>
                     <template v-slot:prepend>
                       <v-avatar color="grey-darken-1"></v-avatar>
                     </template>
 
-                    <v-list-item-title>글쓴이: {{ todo.writer }}</v-list-item-title>
+                    <v-list-item-title>글쓴이 : {{ todo.writer }}</v-list-item-title>
                   </v-list-item>
                 </template>
               </v-list>
