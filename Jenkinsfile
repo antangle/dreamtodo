@@ -9,11 +9,6 @@ pipeline {
     DOCKERHUB_HOST = "antangle"
   }
   stages {
-    stage('Node Build') {
-      steps {
-        sh 'npm run build'
-      }
-    }
     stage('Docker Image Build') {
       steps {
         sh 'docker build -t $DOCKERHUB_HOST/$DOCKERHUB_URL .'
