@@ -4,15 +4,13 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install @vitejs/plugin-vue@4.0.0
-
-RUN npm install
+RUN yarn install
 
 EXPOSE 3000
 
 
 COPY . .
 
-RUN npm run build
+RUN yarn build
 
-CMD ["serve", "-s", "dist"]
+CMD ["yarn", "serve", "-s", "dist"]
