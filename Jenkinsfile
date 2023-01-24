@@ -9,9 +9,9 @@ pipeline {
     DOCKERHUB_HOST = "antangle"
   }
   stages {
-    stage('Java Build') {
+    stage('Node Build') {
       steps {
-        sh './gradlew clean build'
+        sh 'npm run build'
       }
     }
     stage('Docker Image Build') {

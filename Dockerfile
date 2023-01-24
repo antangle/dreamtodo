@@ -4,12 +4,14 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install -g yarn
 
-COPY . .
+RUN yarn install
 
 EXPOSE 3000
 
+COPY . .
+
 RUN npm run build
 
-CMD ["npm", "run", "dev"]
+CMD ["serve", "-s", "dist"]
