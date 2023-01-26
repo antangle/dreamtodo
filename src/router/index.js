@@ -17,16 +17,6 @@ const routes = [
     ],
   },
   {
-    path: '/todo',
-    redirect: () => '/todo/list',
-    children: [{
-      path: 'list',
-      name: 'TodoListPage',
-      component: () => import('@/views/TodoListPage.vue'),
-
-    }]
-  },
-  {
     path: '/sampleTest',
     name: 'SampleTestPage',
     component: () => import('@/views/SampleTestPage.vue')

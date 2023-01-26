@@ -10,6 +10,7 @@ import vuetify from './vuetify'
 import pinia from '../store'
 import router from '../router'
 import {Calendar, DatePicker, SetupCalendar} from "v-calendar";
+import VCalendarLibrary from "v-calendar";
 
 export function registerPlugins (app) {
   loadFonts()
@@ -18,6 +19,7 @@ export function registerPlugins (app) {
     .use(router)
     .use(pinia)
     .use(SetupCalendar, {})
+    .use(VCalendarLibrary, {})
     .use(Calendar)
     .use(DatePicker)
 }
