@@ -22,7 +22,8 @@
         </v-row>
 
         <v-col cols="12">
-            <slot> </slot>
+            <slot>
+            </slot>
         </v-col>
       </v-container>
     </v-main>

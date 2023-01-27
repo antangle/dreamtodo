@@ -8,16 +8,6 @@ const routes = [
     name: 'HomePage'
   },
   {
-    path: '/todo',
-    redirect: () => '/todo/list',
-    children: [{
-      path: 'list',
-      name: 'TodoListPage',
-      component: () => import('@/views/TodoListPage.vue'),
-
-    }]
-  },
-  {
     path: '/sampleTest',
     name: 'SampleTestPage',
     component: () => import('@/views/SampleTestPage.vue')
@@ -31,6 +21,11 @@ const routes = [
     path: '/signup',
     name: 'SignupPage',
     component: () => import('@/views/SignupPage.vue'),
+  },
+  {
+    path: '/calendar',
+    name: 'Calendar',
+    component: () => import('@/components/CalendarComponent.vue'),
   }
 ]
 
