@@ -1,65 +1,46 @@
 <template>
   <h2> Todo List Component </h2>
-  <ul>
-    <li v-for="todo in result" :key="todo.id">
-      {{todo.title}} {{todo.member}}
-    </li>
-<!--    <v-main>-->
-<!--      <v-container-->
-<!--        class="py-8 px-6"-->
-<!--        fluid-->
-<!--      >-->
-<!--        <v-row>-->
-<!--          <v-col-->
-<!--            v-for="todo in result" :key="todo.id"-->
-<!--            cols="12"-->
-<!--          >-->
-<!--            <v-card>-->
+    <ul>
+        <li v-for="todo in result" :key="todo.id" @click="showDetails">
+          {{todo.title}} {{todo.member}}
+        </li>
+      </ul>
 
-<!--              <v-list lines="two">-->
-<!--                <v-list-subheader>제목 : {{ todo.title }}</v-list-subheader>-->
-<!--                <template v-for="n in 1" :key="n">-->
-<!--                  <v-list-item>-->
-<!--                    <template v-slot:prepend>-->
-<!--                      <v-avatar color="grey-darken-1"></v-avatar>-->
-<!--                    </template>-->
-
-<!--                    <v-list-item-title>글쓴이 : {{ todo.member }}</v-list-item-title>-->
-<!--                  </v-list-item>-->
-<!--                </template>-->
-<!--              </v-list>-->
-<!--            </v-card>-->
-<!--          </v-col>-->
-<!--        </v-row>-->
-<!--      </v-container>-->
-<!--    </v-main>-->
-  </ul>
-
-  <div class="text-center">
-    <v-pagination
-      v-model="pageModel"
-      :length="test"
-      rounded="circle"
-      @click="() => emits('movePage', pageModel)"
-    ></v-pagination>
-  </div>
+      <div class="text-center">
+        <v-pagination
+          v-model="pageModel"
+          :length="test"
+          rounded="circle"
+          @click="() => emits('movePage', pageModel)"
+        ></v-pagination>
+      </div>
 
 </template>
 
 <script setup>
   import axios from "axios";
-  import {ref} from "vue";
+  import {ref, watch} from "vue";
 
 
-  const props = defineProps(['changeDate'])
+  const props = defineProps(['onChangeDate'])
   const emits = defineEmits(['movePage'])
-  let date = new Date().toISOString().substring(0, 10)
-  const day = ref(props.changeDate)
+  const day = ref(props.onChangeDate)
+  let date =ref(new Date().toISOString().substring(0, 10))
+
+  // CalendarComponent에서 선택된 날짜 바인딩
+  watch(() => day.value, (value) => {
+    console.log("======watched======")
+    console.log(value)
+    console.log(day.value)
+  })
+
   console.log(date)
   console.log("--------------")
   console.log(day)
 
-  const url = `http://localhost:8081/api/todo/search?date=${date}`
+
+  // 서버로부터 TodoList 받아와서 출력
+  const url = `http://localhost:8081/api/todo/search?date=${date.value}`
   let result = ref({})
 
   axios.get(url).then(res => {
@@ -67,6 +48,10 @@
     console.log(result.value)
     return result.value
   }).catch((error) => console.log(error.response));
+
+  const showDetails = () => {
+    console.log("show details")
+  }
 
 </script>
 

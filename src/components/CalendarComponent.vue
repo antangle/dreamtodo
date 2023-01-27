@@ -24,16 +24,16 @@ const emits = defineEmits(['changeDate'])
 
 const showTodo = async () => {
 
-  console.log(typeof focus.value)
-  const date = focus.value
+  const day = new Date(focus.value).toISOString().substring(0, 10)
+  console.log(day)
 
   emits('changeDate', focus)
 
-  await axios.post(`http://localhost:8081/api/todo/date`, date)
+  await axios.post(`http://localhost:8081/api/todo/date`, day)
     .then((response) => {
       if (response.status === 200) {
-        console.log(date)
-        return date
+        console.log(day)
+        return day
       }
     })
     .catch((error) => console.log(error.response));
