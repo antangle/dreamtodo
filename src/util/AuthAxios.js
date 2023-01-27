@@ -1,5 +1,6 @@
 import axios from "axios";
 import useMemberInfo from "@/store/useMemberInfo";
+import axiosConsts from "@/consts/axios";
 
 
 const authAxios = axios.create()
@@ -11,13 +12,13 @@ const requestRefresh = async () => {
 
   const {getTokens, saveInfo} = useMemberInfo();
 
-  const tokens = getTokens().value
+  const tokens = getTokens()
 
   //console.log(tokens)
 
   console.log("requestRefresh---------------2", tokens)
 
-  const {data} = await axios.post('http://localhost:8080/api/generate', {access:tokens.access, refresh:tokens.refresh});
+  const {data} = await axios.post(`${axiosConsts.domain}/api/auth/refresh`, {access:tokens.access, refresh:tokens.refresh});
 
   //console.log("requestRefresh: ",data.access)
 
@@ -33,11 +34,9 @@ authAxios.interceptors.request.use(
 
   (config)=> {
 
+    console.log("req access: ", useMemberInfo().getTokens().access)
 
-    console.log("req access: ", useMemberInfo().getTokens().value.access)
-
-    config.headers = {'Authorization':`Bearer ${useMemberInfo().getTokens().value.access}`}
-
+    config.headers = {'Authorization':`Bearer ${useMemberInfo().getTokens().access}`}
 
     return config
 
@@ -48,22 +47,18 @@ authAxios.interceptors.request.use(
   }
 )
 
-
-
-
 authAxios.interceptors.response.use(
   (response)=> {
 
-    //console.log("res fulfilled")
+    console.log("res fulfilled")
     return response
 
   }, async (error) => {
 
-    //console.log("res rejected", error)
+    console.log("res rejected", error)
 
-
-
-    if(error.response.data.msg === 'EXPIRED'){
+    //Expired Token
+    if(error.response.data.code === 2025){
 
       console.log("refresh........................................")
       try {
@@ -71,18 +66,25 @@ authAxios.interceptors.response.use(
 
         console.log("refresh result", tokens)
 
-        const authHeader = {'Authorization': `Bearer ${tokens.access}`}
+        const authHeader = {
+          'Authorization': `Bearer ${tokens.access}`,
+          'Refresh-Token': `Bearer ${tokens.refresh}`
+        }
 
         error.config.headers = authHeader
 
+        console.log('here!!')
+        console.log(error.config)
         return axios(error.config)
 
       }catch(eee){
-        return Promise.reject(error)
+        return error
       }
+    } else {
+      console.log(error.response.data)
     }
 
-    return Promise.reject(error);
+    return error
   }
 )
 
